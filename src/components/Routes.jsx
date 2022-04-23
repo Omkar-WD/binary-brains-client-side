@@ -12,6 +12,8 @@ import Apply from "./Placements/Apply/Apply";
 import TotalPlacements from "./Placements/TotalPlacements/TotalPlacements";
 import HiringPartners from "./Placements/HiringPartners/HiringPartners";
 import ApplyJob from "./Placements/Apply/ApplyJob";
+import DirectChat from "./Tickets/DirectChat/DirectChat";
+import ChatRoom from "./Tickets/DirectChat/ChatRoom/ChatRoom";
 
 function AllRoutes() {
   return (
@@ -27,6 +29,8 @@ function AllRoutes() {
       <Route path={"/total-placements"} element={<TotalPlacements />} />
       <Route path={"/hiring-partners"} element={<HiringPartners />} />
       <Route path={"/apply-job/:id"} element={<ApplyJob />} />
+      <Route path={"/direct-chat"} element={<DirectChat />} />
+      <Route path="/direct-chat/:roomName" element={<ChatRoom />} />
       <Route path={"*"} element={<NotFound />} />
     </Routes>
   );

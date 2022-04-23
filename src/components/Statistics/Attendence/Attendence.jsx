@@ -14,28 +14,22 @@ import {
   Container,
 } from "@chakra-ui/react";
 import CustomText from "../../UIComponents/CustomText/CustomText";
-import { API } from "../../Variables";
-import axios from "axios";
+import { getAttendence } from "../../../Redux/Logger/action";
+import { useSelector, useDispatch } from "react-redux";
 
 function Attendence() {
   const [data, setData] = useState([]);
+  const isLoginObj = useSelector((store) => store.isLogin.isLogin);
+  const dispatch = useDispatch();
   useEffect(() => {
-    axios.get(`${API}/lecture/626270e9dac8173d8cebae26`).then((res) => {
-      let x;
-      x = res.data.sort((a, b) => {
-        if (a.created_date > b.created_date) return -1;
-        return 1;
-      });
-
-      setData(x);
-    });
+    dispatch(getAttendence(isLoginObj.user.batch_id, setData));
   }, []);
 
   const totalPresentLecture = (data) => {
     if (data.length > 0) {
       let count = 0;
       for (let i = 0; i < data.length; i++) {
-        if (data[i].students.includes("626273d7dac8173d8cebae2e")) {
+        if (data[i].students.includes(isLoginObj.user._id)) {
           count++;
         }
       }
@@ -82,7 +76,7 @@ function Attendence() {
                     <Td>
                       <CustomText
                         text={
-                          e.students.includes("626273d7dac8173d8cebae2e")
+                          e.students.includes(isLoginObj.user._id)
                             ? "Present"
                             : "Absent"
                         }

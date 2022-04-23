@@ -27,6 +27,7 @@ function Home() {
 
   const data = [
     {
+      _id: "1",
       type: "Lecture",
       event: "Scrum",
       creator: "Nrupul Dev",
@@ -34,6 +35,7 @@ function Home() {
       link: "zoom",
     },
     {
+      _id: "2",
       type: "Contest",
       event: "Cohort",
       creator: "Nrupul Dev",
@@ -41,6 +43,7 @@ function Home() {
       link: "zoom",
     },
     {
+      _id: "3",
       type: "Lecture",
       event: "Revision DSA",
       creator: "Venu",
@@ -80,7 +83,7 @@ function Home() {
               </Thead>
               <Tbody>
                 {data.map((e, i) => (
-                  <Tr>
+                  <Tr key={e._id}>
                     <Td>{i + 1}</Td>
                     <Td>
                       <CustomText text={e.type} />

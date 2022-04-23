@@ -10,16 +10,23 @@ import {
   MenuButton,
   MenuList,
   MenuItem,
-  Button,
+  IconButton,
+  Accordion,
+  AccordionItem,
+  AccordionButton,
+  AccordionPanel,
+  AccordionIcon,
+  ListItem,
+  UnorderedList,
 } from "@chakra-ui/react";
-
+import { HamburgerIcon } from "@chakra-ui/icons";
 import { Link, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { getLogout } from "../../Redux/Logger/action";
 import CustomText from "../UIComponents/CustomText/CustomText";
 
 function UserHeader() {
-  const [isLargerThan576] = useMediaQuery("(min-width: 576px)");
+  const [isLargerThan769] = useMediaQuery("(min-width: 769px)");
   const isLoginObj = useSelector((store) => store.isLogin.isLogin);
   const Navigate = useNavigate();
   const toast = useToast();
@@ -29,6 +36,234 @@ function UserHeader() {
     setTimeout(() => {
       Navigate("/");
     }, 2000);
+  };
+
+  const MobileMenu = () => {
+    return (
+      <Menu>
+        <MenuButton
+          as={IconButton}
+          aria-label="Options"
+          icon={<HamburgerIcon />}
+          variant="outline"
+        />
+        <MenuList>
+          <Accordion defaultIndex={[0]} allowMultiple>
+            <AccordionItem>
+              <AccordionButton>
+                <Box flex="1" textAlign="left">
+                  Curriculum
+                </Box>
+                <AccordionIcon />
+              </AccordionButton>
+              <AccordionPanel pb={4}>
+                <UnorderedList textAlign="left">
+                  <Link to="/coding">
+                    <ListItem>
+                      <CustomText text={"Coding"} />
+                    </ListItem>
+                  </Link>
+                  <Link to="/dsa">
+                    <ListItem>
+                      <CustomText text={"DSA"} />
+                    </ListItem>
+                  </Link>
+                  <Link to="/contest">
+                    <ListItem>
+                      <CustomText text={"Contest"} />
+                    </ListItem>
+                  </Link>
+                </UnorderedList>
+              </AccordionPanel>
+            </AccordionItem>
+
+            <AccordionItem>
+              <AccordionButton>
+                <Box flex="1" textAlign="left">
+                  Statistics
+                </Box>
+                <AccordionIcon />
+              </AccordionButton>
+              <AccordionPanel pb={4}>
+                <UnorderedList textAlign="left">
+                  <Link to="/attendence">
+                    <ListItem>
+                      <CustomText text={"Attendence"} />
+                    </ListItem>
+                  </Link>
+                  <Link to="/assignments">
+                    <ListItem>
+                      <CustomText text={"Assignments"} />
+                    </ListItem>
+                  </Link>
+                </UnorderedList>
+              </AccordionPanel>
+            </AccordionItem>
+            <AccordionItem>
+              <AccordionButton>
+                <Box flex="1" textAlign="left">
+                  Placements
+                </Box>
+                <AccordionIcon />
+              </AccordionButton>
+              <AccordionPanel pb={4}>
+                <UnorderedList textAlign="left">
+                  <Link to="/apply">
+                    <ListItem>
+                      <CustomText text={"Apply"} />
+                    </ListItem>
+                  </Link>
+                  <Link to="/total-placements">
+                    <ListItem>
+                      <CustomText text={"Status"} />
+                    </ListItem>
+                  </Link>
+                  <Link to="/hiring-partners">
+                    <ListItem>
+                      <CustomText text={"Hiring Partners"} />
+                    </ListItem>
+                  </Link>
+                </UnorderedList>
+              </AccordionPanel>
+            </AccordionItem>
+            <AccordionItem>
+              <AccordionButton>
+                <Box flex="1" textAlign="left">
+                  Tickets
+                </Box>
+                <AccordionIcon />
+              </AccordionButton>
+              <AccordionPanel pb={4}>
+                <UnorderedList textAlign="left">
+                  <ListItem>
+                    <CustomText text={"Create Ticket"} />
+                  </ListItem>
+                  <ListItem>
+                    <CustomText text={"Direct Chat"} />
+                  </ListItem>
+                </UnorderedList>
+              </AccordionPanel>
+            </AccordionItem>
+            <AccordionItem>
+              <AccordionButton>
+                <Box flex="1" textAlign="left">
+                  <CustomText text={isLoginObj.user.first_name} />
+                </Box>
+                <AccordionIcon />
+              </AccordionButton>
+              <AccordionPanel pb={4}>
+                <UnorderedList textAlign="left">
+                  <ListItem>
+                    <CustomText text={"Profile"} />
+                  </ListItem>
+                  <ListItem onClick={handleClick}>
+                    <CustomText text={"Logout"} />
+                  </ListItem>
+                </UnorderedList>
+              </AccordionPanel>
+            </AccordionItem>
+          </Accordion>
+        </MenuList>
+      </Menu>
+    );
+  };
+
+  const DesktopMenu = () => {
+    return (
+      <Stack direction="row" spacing={8} align="center">
+        <Menu isLazy>
+          <MenuButton>
+            <CustomText icon={true} text={"Curriculum"} />
+          </MenuButton>
+          <MenuList>
+            <Link to="/coding">
+              <MenuItem>
+                <CustomText text={"Coding"} />
+              </MenuItem>
+            </Link>
+            <Link to="/dsa">
+              <MenuItem>
+                <CustomText text={"DSA"} />
+              </MenuItem>
+            </Link>
+            <Link to="/contest">
+              <MenuItem>
+                <CustomText text={"Contest"} />
+              </MenuItem>
+            </Link>
+          </MenuList>
+        </Menu>
+        <Menu isLazy>
+          <MenuButton>
+            <CustomText icon={true} text={"Statistics"} />
+          </MenuButton>
+          <MenuList>
+            <Link to="/attendence">
+              <MenuItem>
+                <CustomText text={"Attendence"} />
+              </MenuItem>
+            </Link>
+            <Link to="/assignments">
+              <MenuItem>
+                <CustomText text={"Assignments"} />
+              </MenuItem>
+            </Link>
+          </MenuList>
+        </Menu>
+        <Menu isLazy>
+          <MenuButton>
+            <CustomText icon={true} text={"Placements"} />
+          </MenuButton>
+          <MenuList>
+            <Link to="/apply">
+              <MenuItem>
+                <CustomText text={"Apply"} />
+              </MenuItem>
+            </Link>
+            <Link to="/total-placements">
+              <MenuItem>
+                <CustomText text={"Status"} />
+              </MenuItem>
+            </Link>
+            <Link to="/hiring-partners">
+              <MenuItem>
+                <CustomText text={"Hiring Partners"} />
+              </MenuItem>
+            </Link>
+          </MenuList>
+        </Menu>
+        <Menu isLazy>
+          <MenuButton>
+            <CustomText icon={true} text={"Tickets"} />
+          </MenuButton>
+          <MenuList>
+            <MenuItem>
+              <CustomText text={"Create Ticket"} />
+            </MenuItem>
+            <Link to="/direct-chat">
+              <MenuItem>
+                <CustomText text={"Direct Chat"} />
+              </MenuItem>
+            </Link>
+          </MenuList>
+        </Menu>
+        <Box>
+          <Menu isLazy>
+            <MenuButton>
+              <CustomText icon={true} text={isLoginObj.user.first_name} />
+            </MenuButton>
+            <MenuList>
+              <MenuItem>
+                <CustomText text={"Profile"} />
+              </MenuItem>
+              <MenuItem onClick={handleClick}>
+                <CustomText text={"Logout"} />
+              </MenuItem>
+            </MenuList>
+          </Menu>
+        </Box>
+      </Stack>
+    );
   };
 
   return (
@@ -45,112 +280,16 @@ function UserHeader() {
       >
         <Container maxW="container.xl">
           <Stack direction="row">
-            {isLargerThan576 ? (
-              <Box p="5">
-                <Stack direction="row" spacing={8}>
-                  <Link to="/">
-                    <CustomText text={"Binary Brains"} />
-                  </Link>
-                </Stack>
-              </Box>
-            ) : null}
+            <Box p="5">
+              <Stack direction="row" spacing={8}>
+                <Link to="/">
+                  <CustomText text={"Binary Brains"} />
+                </Link>
+              </Stack>
+            </Box>
             <Spacer />
             <Box p="4">
-              <Stack direction="row" spacing={8} align="center" p="1">
-                <Menu isLazy>
-                  <MenuButton>
-                    <CustomText icon={true} text={"Curriculum"} />
-                  </MenuButton>
-                  <MenuList>
-                    <Link to="/coding">
-                      <MenuItem>
-                        <CustomText text={"Coding"} />
-                      </MenuItem>
-                    </Link>
-                    <Link to="/dsa">
-                      <MenuItem>
-                        <CustomText text={"DSA"} />
-                      </MenuItem>
-                    </Link>
-                    <Link to="/contest">
-                      <MenuItem>
-                        <CustomText text={"Contest"} />
-                      </MenuItem>
-                    </Link>
-                  </MenuList>
-                </Menu>
-
-                <Menu isLazy>
-                  <MenuButton>
-                    <CustomText icon={true} text={"Statistics"} />
-                  </MenuButton>
-                  <MenuList>
-                    <Link to="/attendence">
-                      <MenuItem>
-                        <CustomText text={"Attendence"} />
-                      </MenuItem>
-                    </Link>
-                    <Link to="/assignments">
-                      <MenuItem>
-                        <CustomText text={"Assignments"} />
-                      </MenuItem>
-                    </Link>
-                  </MenuList>
-                </Menu>
-                <Menu isLazy>
-                  <MenuButton>
-                    <CustomText icon={true} text={"Placements"} />
-                  </MenuButton>
-                  <MenuList>
-                    <Link to="/apply">
-                      <MenuItem>
-                        <CustomText text={"Apply"} />
-                      </MenuItem>
-                    </Link>
-                    <Link to="/total-placements">
-                      <MenuItem>
-                        <CustomText text={"Status"} />
-                      </MenuItem>
-                    </Link>
-                    <Link to="/hiring-partners">
-                      <MenuItem>
-                        <CustomText text={"Hiring Partners"} />
-                      </MenuItem>
-                    </Link>
-                  </MenuList>
-                </Menu>
-                <Menu isLazy>
-                  <MenuButton>
-                    <CustomText icon={true} text={"Tickets"} />
-                  </MenuButton>
-                  <MenuList>
-                    <MenuItem>
-                      <CustomText text={"Create Ticket"} />
-                    </MenuItem>
-                    <MenuItem>
-                      <CustomText text={"Direct Chat"} />
-                    </MenuItem>
-                  </MenuList>
-                </Menu>
-                <Box>
-                  <Menu isLazy>
-                    <MenuButton>
-                      <CustomText
-                        icon={true}
-                        text={isLoginObj.user.first_name}
-                      />
-                    </MenuButton>
-                    <MenuList>
-                      <MenuItem>
-                        <CustomText text={"Profile"} />
-                      </MenuItem>
-                      <MenuItem onClick={handleClick}>
-                        <CustomText text={"Logout"} />
-                      </MenuItem>
-                    </MenuList>
-                  </Menu>
-                </Box>
-              </Stack>
+              {isLargerThan769 ? <DesktopMenu /> : <MobileMenu />}
             </Box>
           </Stack>
         </Container>
