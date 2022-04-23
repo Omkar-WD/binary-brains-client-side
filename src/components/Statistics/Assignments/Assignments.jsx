@@ -20,6 +20,7 @@ import {
 import CustomText from "../../UIComponents/CustomText/CustomText";
 import { getSubmission } from "../../../Redux/Logger/action";
 import { useSelector, useDispatch } from "react-redux";
+import Loader from "../../UIComponents/Loader/Loader";
 
 function Assignments() {
   const [completedData, setCompletedData] = useState([]);
@@ -52,137 +53,147 @@ function Assignments() {
   };
 
   return (
-    <Container
-      maxW="container.xl"
-      align="center"
-      bgColor="white"
-      borderRadius="10px"
-      mt={"5"}
-      boxShadow="rgba(0, 0, 0, 0.1) 0px 4px 12px"
-    >
-      <Tabs isFitted variant="enclosed">
-        <TabList mb="2">
-          <Tab>Completed</Tab>
-          <Tab>Pending</Tab>
-        </TabList>
-        <TabPanels>
-          <TabPanel>
-            <TableContainer p="5">
-              <Table variant="striped">
-                <TableCaption placement="top" mb="5">
-                  <Heading as="h4" size="md">
-                    Completed Assignment Report
-                  </Heading>
-                </TableCaption>
-                <Thead>
-                  <Tr>
-                    <Th>Sr.No</Th>
-                    <Th>Assignment</Th>
-                    <Th>Date</Th>
-                    <Th>Status</Th>
-                    <Th>Details</Th>
-                  </Tr>
-                </Thead>
-                <Tbody>
-                  {completedData.length > 0 &&
-                    completedData.map((e, i) => (
-                      <Tr key={e._id}>
-                        <Td>{i + 1}</Td>
-                        <Td>
-                          <CustomText text={e.assignment_name} />
-                        </Td>
-                        <Td>
-                          <CustomText text={e.created_date.substring(0, 10)} />
-                        </Td>
-                        <Td>
-                          <CustomText
-                            text={
-                              e.students.includes(isLoginObj.user._id)
-                                ? "Completed"
-                                : "Pending"
-                            }
-                          />
-                        </Td>
-                        <Td>
-                          <CustomText text={"Details"} />
-                        </Td>
+    <>
+      {completedData.length === 0 && pendingData.length === 0 ? (
+        <Loader />
+      ) : (
+        <Container
+          maxW="container.xl"
+          align="center"
+          bgColor="white"
+          borderRadius="10px"
+          mt={"5"}
+          boxShadow="rgba(0, 0, 0, 0.1) 0px 4px 12px"
+        >
+          <Tabs isFitted variant="enclosed">
+            <TabList mb="2">
+              <Tab>Completed</Tab>
+              <Tab>Pending</Tab>
+            </TabList>
+            <TabPanels>
+              <TabPanel>
+                <TableContainer p="5">
+                  <Table variant="striped">
+                    <TableCaption placement="top" mb="5">
+                      <Heading as="h4" size="md">
+                        Completed Assignment Report
+                      </Heading>
+                    </TableCaption>
+                    <Thead>
+                      <Tr>
+                        <Th>Sr.No</Th>
+                        <Th>Assignment</Th>
+                        <Th>Date</Th>
+                        <Th>Status</Th>
+                        <Th>Details</Th>
                       </Tr>
-                    ))}
-                </Tbody>
-                <TableCaption mb="5">
-                  <Heading as="h4" size="md" textAlign="right">
-                    Total Assignment Submission :&ensp;
-                    {Math.floor(
-                      (totalAssignments(completedData) /
-                        (completedData.length + pendingData.length)) *
-                        100
-                    )}
-                    %
-                  </Heading>
-                </TableCaption>
-              </Table>
-            </TableContainer>
-          </TabPanel>
-          <TabPanel>
-            <TableContainer p="5">
-              <Table variant="striped">
-                <TableCaption placement="top" mb="5">
-                  <Heading as="h4" size="md">
-                    Pending Assignment Report
-                  </Heading>
-                </TableCaption>
-                <Thead>
-                  <Tr>
-                    <Th>Sr.No</Th>
-                    <Th>Assignment</Th>
-                    <Th>Date</Th>
-                    <Th>Status</Th>
-                    <Th>Details</Th>
-                  </Tr>
-                </Thead>
-                <Tbody>
-                  {pendingData.length > 0 &&
-                    pendingData.map((e, i) => (
-                      <Tr key={e._id}>
-                        <Td>{i + 1}</Td>
-                        <Td>
-                          <CustomText text={e.assignment_name} />
-                        </Td>
-                        <Td>
-                          <CustomText text={e.created_date.substring(0, 10)} />
-                        </Td>
-                        <Td>
-                          <CustomText
-                            text={
-                              e.students.includes(isLoginObj.user._id)
-                                ? "Completed"
-                                : "Pending"
-                            }
-                          />
-                        </Td>
-                        <Td>
-                          <CustomText text={"Details"} />
-                        </Td>
+                    </Thead>
+                    <Tbody>
+                      {completedData.length > 0 &&
+                        completedData.map((e, i) => (
+                          <Tr key={e._id}>
+                            <Td>{i + 1}</Td>
+                            <Td>
+                              <CustomText text={e.assignment_name} />
+                            </Td>
+                            <Td>
+                              <CustomText
+                                text={e.created_date.substring(0, 10)}
+                              />
+                            </Td>
+                            <Td>
+                              <CustomText
+                                text={
+                                  e.students.includes(isLoginObj.user._id)
+                                    ? "Completed"
+                                    : "Pending"
+                                }
+                              />
+                            </Td>
+                            <Td>
+                              <CustomText text={"Details"} />
+                            </Td>
+                          </Tr>
+                        ))}
+                    </Tbody>
+                    <TableCaption mb="5">
+                      <Heading as="h4" size="md" textAlign="right">
+                        Total Assignment Submission :&ensp;
+                        {Math.floor(
+                          (totalAssignments(completedData) /
+                            (completedData.length + pendingData.length)) *
+                            100
+                        )}
+                        %
+                      </Heading>
+                    </TableCaption>
+                  </Table>
+                </TableContainer>
+              </TabPanel>
+              <TabPanel>
+                <TableContainer p="5">
+                  <Table variant="striped">
+                    <TableCaption placement="top" mb="5">
+                      <Heading as="h4" size="md">
+                        Pending Assignment Report
+                      </Heading>
+                    </TableCaption>
+                    <Thead>
+                      <Tr>
+                        <Th>Sr.No</Th>
+                        <Th>Assignment</Th>
+                        <Th>Date</Th>
+                        <Th>Status</Th>
+                        <Th>Details</Th>
                       </Tr>
-                    ))}
-                </Tbody>
-                <TableCaption mb="5">
-                  <Heading as="h4" size="md" textAlign="right">
-                    Total Assignment Submission :&ensp;
-                    {Math.floor(
-                      (totalAssignments(completedData) /
-                        (completedData.length + pendingData.length)) *
-                        100
-                    )}
-                    %
-                  </Heading>
-                </TableCaption>
-              </Table>
-            </TableContainer>
-          </TabPanel>
-        </TabPanels>
-      </Tabs>
-    </Container>
+                    </Thead>
+                    <Tbody>
+                      {pendingData.length > 0 &&
+                        pendingData.map((e, i) => (
+                          <Tr key={e._id}>
+                            <Td>{i + 1}</Td>
+                            <Td>
+                              <CustomText text={e.assignment_name} />
+                            </Td>
+                            <Td>
+                              <CustomText
+                                text={e.created_date.substring(0, 10)}
+                              />
+                            </Td>
+                            <Td>
+                              <CustomText
+                                text={
+                                  e.students.includes(isLoginObj.user._id)
+                                    ? "Completed"
+                                    : "Pending"
+                                }
+                              />
+                            </Td>
+                            <Td>
+                              <CustomText text={"Details"} />
+                            </Td>
+                          </Tr>
+                        ))}
+                    </Tbody>
+                    <TableCaption mb="5">
+                      <Heading as="h4" size="md" textAlign="right">
+                        Total Assignment Submission :&ensp;
+                        {Math.floor(
+                          (totalAssignments(completedData) /
+                            (completedData.length + pendingData.length)) *
+                            100
+                        )}
+                        %
+                      </Heading>
+                    </TableCaption>
+                  </Table>
+                </TableContainer>
+              </TabPanel>
+            </TabPanels>
+          </Tabs>
+        </Container>
+      )}
+    </>
   );
 }
 

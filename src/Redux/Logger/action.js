@@ -147,6 +147,22 @@ export const getTotalDSALectures = (batchId, fn) => () => {
     });
 };
 
+export const getTotalContest = (batchId, fn) => () => {
+  axios
+    .get(`${API}/assignment/${batchId}`)
+    .then((res) => {
+      let x;
+      x = res.data.sort((a, b) => {
+        if (a.created_date > b.created_date) return -1;
+        return 1;
+      });
+      fn(x);
+    })
+    .catch((e) => {
+      console.log(e);
+    });
+};
+
 export const getAttendence = (batchId, fn) => () => {
   axios.get(`${API}/lecture/${batchId}`).then((res) => {
     let x;

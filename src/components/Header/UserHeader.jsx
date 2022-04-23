@@ -135,12 +135,16 @@ function UserHeader() {
               </AccordionButton>
               <AccordionPanel pb={4}>
                 <UnorderedList textAlign="left">
-                  <ListItem>
-                    <CustomText text={"Create Ticket"} />
-                  </ListItem>
-                  <ListItem>
-                    <CustomText text={"Direct Chat"} />
-                  </ListItem>
+                  <Link to="/create-ticket">
+                    <ListItem>
+                      <CustomText text={"Create Ticket"} />
+                    </ListItem>
+                  </Link>
+                  <Link to="/direct-chat">
+                    <ListItem>
+                      <CustomText text={"Direct Chat"} />
+                    </ListItem>
+                  </Link>
                 </UnorderedList>
               </AccordionPanel>
             </AccordionItem>
@@ -153,9 +157,11 @@ function UserHeader() {
               </AccordionButton>
               <AccordionPanel pb={4}>
                 <UnorderedList textAlign="left">
-                  <ListItem>
-                    <CustomText text={"Profile"} />
-                  </ListItem>
+                  <Link to="/profile">
+                    <ListItem>
+                      <CustomText text={"Profile"} />
+                    </ListItem>
+                  </Link>
                   <ListItem onClick={handleClick}>
                     <CustomText text={"Logout"} />
                   </ListItem>
@@ -237,9 +243,11 @@ function UserHeader() {
             <CustomText icon={true} text={"Tickets"} />
           </MenuButton>
           <MenuList>
-            <MenuItem>
-              <CustomText text={"Create Ticket"} />
-            </MenuItem>
+            <Link to="/create-ticket">
+              <MenuItem>
+                <CustomText text={"Create Ticket"} />
+              </MenuItem>
+            </Link>
             <Link to="/direct-chat">
               <MenuItem>
                 <CustomText text={"Direct Chat"} />
@@ -253,9 +261,11 @@ function UserHeader() {
               <CustomText icon={true} text={isLoginObj.user.first_name} />
             </MenuButton>
             <MenuList>
-              <MenuItem>
-                <CustomText text={"Profile"} />
-              </MenuItem>
+              <Link to="/profile">
+                <MenuItem>
+                  <CustomText text={"Profile"} />
+                </MenuItem>
+              </Link>
               <MenuItem onClick={handleClick}>
                 <CustomText text={"Logout"} />
               </MenuItem>
