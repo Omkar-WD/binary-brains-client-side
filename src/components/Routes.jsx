@@ -17,8 +17,8 @@ import { Batch } from "./Admin/Batch";
 function AllRoutes() {
   return (
     <Routes>
-      <Route path={"/"} element={<Home />} />
-      {/* <Route path="/" element={<Batch />} /> */}
+      {/* <Route path={"/"} element={<Home />} /> */}
+      <Route path="/" element={<Batch />} />
       <Route path={"/login"} element={<Login />} />
       <Route path={"/attendence"} element={<Attendence />} />
       <Route path={"/assignments"} element={<Assignments />} />
