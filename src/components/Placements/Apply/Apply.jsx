@@ -2,13 +2,12 @@ import { Heading, Flex, Container } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import JobCard from "./JobCard";
 import axios from "axios";
-import { API } from "../../Variables";
 
 function Apply() {
   const [arr, setArr] = useState([]);
   useEffect(() => {
     axios
-      .get(`${API}/job`)
+      .get(`https://recruitment-backend-app.herokuapp.com/job`)
       .then((res) => {
         setArr(res.data.AllJob);
       })

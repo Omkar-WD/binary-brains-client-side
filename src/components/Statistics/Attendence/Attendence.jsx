@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   Box,
   Heading,
@@ -13,36 +13,36 @@ import {
   TableContainer,
   Container,
 } from "@chakra-ui/react";
-import { Link } from "react-router-dom";
 import CustomText from "../../UIComponents/CustomText/CustomText";
+import { API } from "../../Variables";
+import axios from "axios";
 
 function Attendence() {
+  const [data, setData] = useState([]);
+  useEffect(() => {
+    axios.get(`${API}/lecture/626270e9dac8173d8cebae26`).then((res) => {
+      let x;
+      x = res.data.sort((a, b) => {
+        if (a.created_date > b.created_date) return -1;
+        return 1;
+      });
+
+      setData(x);
+    });
+  }, []);
+
   const totalPresentLecture = (data) => {
-    let count = 0;
-    for (let i = 0; i < data.length; i++) {
-      if (data[i].status === true) {
-        count++;
+    if (data.length > 0) {
+      let count = 0;
+      for (let i = 0; i < data.length; i++) {
+        if (data[i].students.includes("626273d7dac8173d8cebae2e")) {
+          count++;
+        }
       }
+      return count;
     }
-    return count;
+    return 0;
   };
-  const data = [
-    {
-      type: "Scrum",
-      date: "10/12/12",
-      status: true,
-    },
-    {
-      type: "Revision 2",
-      date: "10/12/12",
-      status: true,
-    },
-    {
-      type: "Skillathon",
-      date: "10/12/12",
-      status: false,
-    },
-  ];
   return (
     <Container
       maxW="container.xl"
@@ -69,20 +69,27 @@ function Attendence() {
               </Tr>
             </Thead>
             <Tbody>
-              {data.map((e, i) => (
-                <Tr>
-                  <Td>{i + 1}</Td>
-                  <Td>
-                    <CustomText text={e.type} />
-                  </Td>
-                  <Td>
-                    <CustomText text={e.date} />
-                  </Td>
-                  <Td>
-                    <CustomText text={e.status ? "Present" : "Absent"} />
-                  </Td>
-                </Tr>
-              ))}
+              {data.length > 0 &&
+                data.map((e, i) => (
+                  <Tr key={e._id}>
+                    <Td>{i + 1}</Td>
+                    <Td>
+                      <CustomText text={e.lecture_name} />
+                    </Td>
+                    <Td>
+                      <CustomText text={e.created_date.substring(0, 10)} />
+                    </Td>
+                    <Td>
+                      <CustomText
+                        text={
+                          e.students.includes("626273d7dac8173d8cebae2e")
+                            ? "Present"
+                            : "Absent"
+                        }
+                      />
+                    </Td>
+                  </Tr>
+                ))}
             </Tbody>
             <TableCaption mb="5">
               <Heading as="h4" size="md" textAlign="right">

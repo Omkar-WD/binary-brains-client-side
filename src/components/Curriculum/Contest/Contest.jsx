@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import {
   Box,
   Heading,
@@ -12,21 +12,27 @@ import {
   TableContainer,
   Container,
 } from "@chakra-ui/react";
+import { Link } from "react-router-dom";
 import CustomText from "../../UIComponents/CustomText/CustomText";
-import { API } from "../../Variables";
-import axios from "axios";
 
 function Contest() {
-  const [data, setData] = useState([]);
-  useEffect(() => {
-    axios.get(`${API}/lecture`).then((res) => {
-      let x;
-      x = res.data.filter((e) => {
-        if (e.lecture_name[0] == "C") return e;
-      });
-      setData(x);
-    });
-  }, []);
+  const data = [
+    {
+      type: "Cohort-3",
+      date: "12/12/12",
+      topic: "Sorting",
+    },
+    {
+      type: "Cohort-2",
+      date: "11/12/12",
+      topic: "Sliding Window",
+    },
+    {
+      type: "Cohort-1",
+      date: "10/12/12",
+      topic: "Two Pointer",
+    },
+  ];
   return (
     <Container
       maxW="container.xl"
@@ -54,24 +60,23 @@ function Contest() {
               </Tr>
             </Thead>
             <Tbody>
-              {data.length &&
-                data.map((e, i) => (
-                  <Tr>
-                    <Td>{i + 1}</Td>
-                    <Td>
-                      <CustomText text={e.lecture_name.substring(9)} />
-                    </Td>
-                    <Td>
-                      <CustomText text={e.created_date.substring(0, 10)} />
-                    </Td>
-                    <Td>
-                      <CustomText text={e.topic} />
-                    </Td>
-                    <Td>
-                      <CustomText text={"Details"} />
-                    </Td>
-                  </Tr>
-                ))}
+              {data.map((e, i) => (
+                <Tr>
+                  <Td>{i + 1}</Td>
+                  <Td>
+                    <CustomText text={e.type} />
+                  </Td>
+                  <Td>
+                    <CustomText text={e.topic} />
+                  </Td>
+                  <Td>
+                    <CustomText text={e.date} />
+                  </Td>
+                  <Td>
+                    <CustomText text={"Details"} />
+                  </Td>
+                </Tr>
+              ))}
             </Tbody>
           </Table>
         </TableContainer>

@@ -13,20 +13,18 @@ import {
   Container,
 } from "@chakra-ui/react";
 import CustomText from "../../UIComponents/CustomText/CustomText";
-import { API } from "../../Variables";
-import axios from "axios";
+import { getTotalCodingLectures } from "../../../Redux/Logger/action";
+import { useSelector, useDispatch } from "react-redux";
 
 function Coding() {
   const [data, setData] = useState([]);
+  const isLoginObj = useSelector((store) => store.isLogin.isLogin);
+  const dispatch = useDispatch();
+
   useEffect(() => {
-    axios.get(`${API}/lecture`).then((res) => {
-      let x;
-      x = res.data.filter((e) => {
-        if (e.lecture_name[0] == "C") return e;
-      });
-      setData(x);
-    });
+    dispatch(getTotalCodingLectures(isLoginObj.user.batch_id, setData));
   }, []);
+
   return (
     <Container
       maxW="container.xl"
@@ -55,7 +53,7 @@ function Coding() {
             <Tbody>
               {data.length > 0 &&
                 data.map((e, i) => (
-                  <Tr>
+                  <Tr key={e._id}>
                     <Td>{i + 1}</Td>
                     <Td>
                       <CustomText text={e.lecture_name.substring(9)} />

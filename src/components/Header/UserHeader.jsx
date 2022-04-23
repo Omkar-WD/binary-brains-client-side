@@ -15,7 +15,7 @@ import {
 
 import { Link, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { isLogin } from "../../Redux/Logger/action";
+import { getLogout } from "../../Redux/Logger/action";
 import CustomText from "../UIComponents/CustomText/CustomText";
 
 function UserHeader() {
@@ -25,24 +25,7 @@ function UserHeader() {
   const toast = useToast();
   const dispatch = useDispatch();
   const handleClick = () => {
-    localStorage.setItem(
-      "loginUser",
-      JSON.stringify({
-        user: { companyName: "", userName: "", email: "" },
-      })
-    );
-    dispatch(
-      isLogin({
-        user: { companyName: "", userName: "", email: "" },
-      })
-    );
-    toast({
-      title: "Logout Successfull !!!",
-      status: "success",
-      duration: 2000,
-      isClosable: true,
-      position: "top",
-    });
+    dispatch(getLogout(toast));
     setTimeout(() => {
       Navigate("/");
     }, 2000);
@@ -152,7 +135,10 @@ function UserHeader() {
                 <Box>
                   <Menu isLazy>
                     <MenuButton>
-                      <CustomText icon={true} text={isLoginObj.user.userName} />
+                      <CustomText
+                        icon={true}
+                        text={isLoginObj.user.first_name}
+                      />
                     </MenuButton>
                     <MenuList>
                       <MenuItem>

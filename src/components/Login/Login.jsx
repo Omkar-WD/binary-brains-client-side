@@ -8,13 +8,10 @@ import {
   Flex,
   Input,
   useToast,
-  Box,
 } from "@chakra-ui/react";
-import axios from "axios";
-import { API } from "../Variables";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { isLogin } from "../../Redux/Logger/action";
+import { getLogin } from "../../Redux/Logger/action";
 
 function AdminLogin() {
   const dispatch = useDispatch();
@@ -32,33 +29,12 @@ function AdminLogin() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    axios
-      .post(`${API}/admin`, userData)
-      .then((res) => {
-        localStorage.setItem("loginUser", JSON.stringify(res.data));
-        dispatch(isLogin(res.data));
-        toast({
-          title: "Login Successfull !!!",
-          status: "success",
-          duration: 1500,
-          isClosable: true,
-          position: "top",
-        });
-        setTimeout(() => {
-          Navigate("/");
-        }, 1500);
-      })
-      .catch((e) => {
-        toast({
-          title: "Login Failed !!!",
-          status: "error",
-          duration: 2000,
-          isClosable: true,
-          position: "top",
-        });
-        console.log(e);
-      });
+    dispatch(getLogin(userData, toast));
+    setTimeout(() => {
+      Navigate("/");
+    }, 1500);
   };
+
   return (
     <Container maxW="md">
       <Heading mt="5">Login</Heading>

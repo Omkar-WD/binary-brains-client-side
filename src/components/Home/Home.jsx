@@ -20,7 +20,7 @@ function Home() {
   const Navigate = useNavigate();
   const isLoginObj = useSelector((store) => store.isLogin.isLogin);
   useEffect(() => {
-    if (isLoginObj.user.userName === "") {
+    if (isLoginObj.user.first_name === "") {
       Navigate("/login");
     }
   }, []);
@@ -51,7 +51,7 @@ function Home() {
 
   return (
     <>
-      {isLoginObj.user.userName !== "" ? (
+      {isLoginObj.user.first_name !== "" ? (
         <Container
           maxW="container.xl"
           align="center"

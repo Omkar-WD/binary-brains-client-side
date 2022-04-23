@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   Box,
   Heading,
@@ -13,27 +13,17 @@ import {
   TableContainer,
   Container,
 } from "@chakra-ui/react";
-import { Link } from "react-router-dom";
 import CustomText from "../../UIComponents/CustomText/CustomText";
+import { getTotalDSALectures } from "../../../Redux/Logger/action";
+import { useSelector, useDispatch } from "react-redux";
 
 function DSA() {
-  const data = [
-    {
-      type: "Sorting",
-      date: "12/12/12",
-      status: true,
-    },
-    {
-      type: "Sliding Window",
-      date: "11/12/12",
-      status: true,
-    },
-    {
-      type: "Two Pointers",
-      date: "10/12/12",
-      status: false,
-    },
-  ];
+  const [data, setData] = useState([]);
+  const isLoginObj = useSelector((store) => store.isLogin.isLogin);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(getTotalDSALectures(isLoginObj.user.batch_id, setData));
+  }, []);
   return (
     <Container
       maxW="container.xl"
@@ -60,20 +50,21 @@ function DSA() {
               </Tr>
             </Thead>
             <Tbody>
-              {data.map((e, i) => (
-                <Tr>
-                  <Td>{i + 1}</Td>
-                  <Td>
-                    <CustomText text={e.type} />
-                  </Td>
-                  <Td>
-                    <CustomText text={e.date} />
-                  </Td>
-                  <Td>
-                    <CustomText text={"Details"} />
-                  </Td>
-                </Tr>
-              ))}
+              {data.length > 0 &&
+                data.map((e, i) => (
+                  <Tr key={e._id}>
+                    <Td>{i + 1}</Td>
+                    <Td>
+                      <CustomText text={e.lecture_name.substring(5)} />
+                    </Td>
+                    <Td>
+                      <CustomText text={e.created_date.substring(0, 10)} />
+                    </Td>
+                    <Td>
+                      <CustomText text={"Details"} />
+                    </Td>
+                  </Tr>
+                ))}
             </Tbody>
           </Table>
         </TableContainer>

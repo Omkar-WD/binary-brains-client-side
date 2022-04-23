@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   Heading,
   Table,
@@ -18,34 +18,49 @@ import {
   Box,
 } from "@chakra-ui/react";
 import CustomText from "../../UIComponents/CustomText/CustomText";
+import { API } from "../../Variables";
+import axios from "axios";
 
 function Assignments() {
+  const [completedData, setCompletedData] = useState([]);
+  const [pendingData, setPendingData] = useState([]);
+  useEffect(() => {
+    axios.get(`${API}/assignment/626270e9dac8173d8cebae26`).then((res) => {
+      let x, y;
+      x = res.data
+        .sort((a, b) => {
+          if (a.created_date > b.created_date) return -1;
+          return 1;
+        })
+        .filter((e) => {
+          if (e.students.includes("626273d7dac8173d8cebae2e")) return e;
+        });
+      setCompletedData(x);
+      y = res.data
+        .sort((a, b) => {
+          if (a.created_date > b.created_date) return -1;
+          return 1;
+        })
+        .filter((e) => {
+          if (!e.students.includes("626273d7dac8173d8cebae2e")) return e;
+        });
+      setPendingData(y);
+    });
+  }, []);
+
   const totalAssignments = (data) => {
-    let count = 0;
-    for (let i = 0; i < data.length; i++) {
-      if (data[i].status === true) {
-        count++;
+    if (data.length > 0) {
+      let count = 0;
+      for (let i = 0; i < data.length; i++) {
+        if (data[i].students.includes("626273d7dac8173d8cebae2e")) {
+          count++;
+        }
       }
+      return count;
     }
-    return count;
+    return 0;
   };
-  const data = [
-    {
-      type: "node js revision",
-      date: "12/12/12",
-      status: true,
-    },
-    {
-      type: "react revision",
-      date: "11/12/12",
-      status: false,
-    },
-    {
-      type: "full stack app",
-      date: "10/12/12",
-      status: false,
-    },
-  ];
+
   return (
     <Container
       maxW="container.xl"
@@ -75,32 +90,44 @@ function Assignments() {
                     <Th>Assignment</Th>
                     <Th>Date</Th>
                     <Th>Status</Th>
+                    <Th>Details</Th>
                   </Tr>
                 </Thead>
                 <Tbody>
-                  {data.map((e, i) =>
-                    e.status ? (
-                      <Tr>
+                  {completedData.length > 0 &&
+                    completedData.map((e, i) => (
+                      <Tr key={e._id}>
                         <Td>{i + 1}</Td>
                         <Td>
-                          <CustomText text={e.type} />
+                          <CustomText text={e.assignment_name} />
                         </Td>
                         <Td>
-                          <CustomText text={e.date} />
+                          <CustomText text={e.created_date.substring(0, 10)} />
                         </Td>
                         <Td>
                           <CustomText
-                            text={e.status ? "Completed" : "Pending"}
+                            text={
+                              e.students.includes("626273d7dac8173d8cebae2e")
+                                ? "Completed"
+                                : "Pending"
+                            }
                           />
                         </Td>
+                        <Td>
+                          <CustomText text={"Details"} />
+                        </Td>
                       </Tr>
-                    ) : null
-                  )}
+                    ))}
                 </Tbody>
                 <TableCaption mb="5">
                   <Heading as="h4" size="md" textAlign="right">
                     Total Assignment Submission :&ensp;
-                    {Math.floor((totalAssignments(data) / data.length) * 100)}%
+                    {Math.floor(
+                      (totalAssignments(completedData) /
+                        (completedData.length + pendingData.length)) *
+                        100
+                    )}
+                    %
                   </Heading>
                 </TableCaption>
               </Table>
@@ -120,32 +147,44 @@ function Assignments() {
                     <Th>Assignment</Th>
                     <Th>Date</Th>
                     <Th>Status</Th>
+                    <Th>Details</Th>
                   </Tr>
                 </Thead>
                 <Tbody>
-                  {data.map((e, i) =>
-                    !e.status ? (
-                      <Tr>
+                  {pendingData.length > 0 &&
+                    pendingData.map((e, i) => (
+                      <Tr key={e._id}>
                         <Td>{i + 1}</Td>
                         <Td>
-                          <CustomText text={e.type} />
+                          <CustomText text={e.assignment_name} />
                         </Td>
                         <Td>
-                          <CustomText text={e.date} />
+                          <CustomText text={e.created_date.substring(0, 10)} />
                         </Td>
                         <Td>
                           <CustomText
-                            text={e.status ? "Completed" : "Pending"}
+                            text={
+                              e.students.includes("626273d7dac8173d8cebae2e")
+                                ? "Completed"
+                                : "Pending"
+                            }
                           />
                         </Td>
+                        <Td>
+                          <CustomText text={"Details"} />
+                        </Td>
                       </Tr>
-                    ) : null
-                  )}
+                    ))}
                 </Tbody>
                 <TableCaption mb="5">
                   <Heading as="h4" size="md" textAlign="right">
                     Total Assignment Submission :&ensp;
-                    {Math.floor((totalAssignments(data) / data.length) * 100)}%
+                    {Math.floor(
+                      (totalAssignments(completedData) /
+                        (completedData.length + pendingData.length)) *
+                        100
+                    )}
+                    %
                   </Heading>
                 </TableCaption>
               </Table>

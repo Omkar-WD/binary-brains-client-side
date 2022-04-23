@@ -8,7 +8,7 @@ function Header() {
   const isLoginObj = useSelector((store) => store.isLogin.isLogin);
   return (
     <>
-      {isLoginObj.user.userName !== "" ? (
+      {isLoginObj.user.first_name !== "" ? (
         <UserHeader />
       ) : (
         <Box
