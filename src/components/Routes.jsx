@@ -12,11 +12,15 @@ import Apply from "./Placements/Apply/Apply";
 import TotalPlacements from "./Placements/TotalPlacements/TotalPlacements";
 import HiringPartners from "./Placements/HiringPartners/HiringPartners";
 import ApplyJob from "./Placements/Apply/ApplyJob";
+import { Batch } from "./Admin/Batch";
+import { Lectures } from "./Admin/Lectures";
+import { AdminAssignments } from "./Admin/Assignments";
 
 function AllRoutes() {
   return (
     <Routes>
       <Route path={"/"} element={<Home />} />
+      <Route path="/adminassignment" element={<AdminAssignments/>} />
       <Route path={"/login"} element={<Login />} />
       <Route path={"/attendence"} element={<Attendence />} />
       <Route path={"/assignments"} element={<Assignments />} />
