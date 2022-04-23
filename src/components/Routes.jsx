@@ -15,6 +15,7 @@ import ApplyJob from "./Placements/Apply/ApplyJob";
 import DirectChat from "./Tickets/DirectChat/DirectChat";
 import ChatRoom from "./Tickets/DirectChat/ChatRoom/ChatRoom";
 
+
 function AllRoutes() {
   return (
     <Routes>
