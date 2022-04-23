@@ -1,4 +1,5 @@
 import "./App.css";
+
 import Header from "./components/Header/Header";
 import AllRoutes from "./components/Routes";
 
@@ -7,6 +8,7 @@ function App() {
     <div className="App">
       <Header />
       <AllRoutes />
+  
     </div>
   );
 }
